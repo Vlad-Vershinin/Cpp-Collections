@@ -2,43 +2,41 @@
 #define _STACK_HPP_
 
 #include "../LinkedList/LinkedList.hpp"
-#include <stdexcept>
 
 namespace Stack {
-	template<typename T>
-	class Stack {
-	public:
-		bool Empty() const {
-			return list.Empty();
-		}
+    template <typename T>
+    class Stack {
+    public:
+        bool Empty() const {
+            return list.Empty();
+        }
 
-		void Push(const T& value) {
-			list.Insert(value, 0);
-		}
+        void Push(const T& value) {
+            list.PushFront(value);
+        }
 
-		void Pop() {
-			if (Empty()) {
-				throw std::underflow_error("Stack is empty");
-			}
-			list.Remove(0);
-		}
+        T Pop() {
+            if (Empty()) {
+                throw std::underflow_error("Stack is empty");
+            }
+            return list.PopFront();
+        }
 
-		T& Top() {
-			if (Empty()) {
-				throw std::underflow_error("Stack is empty");
-			}
-			auto* firstNode = list.GetHead();
-			return firstNode->data;
-		}
+        T& Top() {
+            return list.GetFront();
+        }
 
+        T& Bottom() {
+            return list.GetBack();
+        }
 
+        int Size() const {
+            return list.Count();
+        }
 
-		size_t Size() const {
-			return list.Count();
-		}
-	private:
-		LinkedList::LinkedList<T> list;
-	};
+    private:
+        LinkedList::LinkedList<T> list;
+    };
 }
 
 #endif // !_STACK_HPP_
